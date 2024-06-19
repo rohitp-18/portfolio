@@ -7,7 +7,7 @@ import { AlertProvider } from "./components/utils/alertProvider";
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "*",
     element: (
       <>
         <AlertProvider>
