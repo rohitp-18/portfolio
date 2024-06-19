@@ -1,0 +1,136 @@
+.navbar-section {
+  position: fixed;
+  top: 0;
+  padding: 20px 30px;
+  width: 100%;
+  background-color: white;
+  margin: 0 auto;
+  --color: black;
+  color: black;
+  z-index: 2;
+
+  .navbar-div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+
+    .logo {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .navigation {
+      display: flex;
+      justify-content: space-between;
+
+      a {
+        text-decoration: none;
+        color: var(--color);
+        padding: 5px 8px;
+        font-weight: 600;
+        cursor: pointer;
+
+        &.active {
+          color: #003bff;
+        }
+      }
+    }
+  }
+
+  .mobile-div {
+    display: none;
+  }
+}
+
+@media (max-width: 650px) {
+  .navbar-section {
+    padding: 10px 20px;
+
+    .navbar-div {
+      display: none;
+    }
+    .mobile-div {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+    }
+  }
+  .navbar-drawer {
+    color: green;
+
+    .drawer {
+      width: 300px;
+      position: relative;
+      min-height: 100vh;
+      padding: 20px 0;
+
+      .close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 30px;
+      }
+
+      .logo {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 5px;
+        padding: 20px 0;
+
+        .MuiAvatar-root {
+          width: 90px;
+          height: 90px;
+        }
+
+        b {
+          font-size: large;
+          color: #003bff;
+        }
+      }
+
+      .mobile-nevigation {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+
+        a {
+          text-decoration: none;
+          color: black;
+          padding: 15px 10px;
+          font-weight: 600;
+          cursor: pointer;
+          width: 100%;
+
+          &:hover {
+            background-color: #b7b7b7;
+          }
+
+          &.active {
+            color: #003bff;
+          }
+        }
+      }
+
+      .div {
+        position: absolute;
+        bottom: 10px;
+        left: 70px;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}

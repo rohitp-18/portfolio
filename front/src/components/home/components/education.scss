@@ -1,0 +1,19 @@
+section.education-component {
+  position: relative;
+  min-height: unset !important;
+  height: 500px;
+  background-color: #6a3636;
+  border-radius: 20px;
+  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+
+  h2 {
+    text-align: center;
+    padding: 30px 0;
+  }
+
+  .vertical-timeline--two-columns {
+  }
+}

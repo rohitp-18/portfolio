@@ -1,0 +1,119 @@
+section.contact-component {
+  background-color: #a5dede;
+  border-radius: 15px;
+  height: 520px;
+  padding: 20px 0;
+
+  h2 {
+    padding: 12px 0;
+    text-align: center;
+  }
+
+  .contact {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    .me {
+      // border-right: 10px solid #004;
+
+      .MuiTypography-body {
+        font-weight: 600;
+        padding: 20px 10px;
+      }
+
+      a {
+        display: flex;
+        padding: 10px 0;
+        justify-content: unset;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        color: #000e;
+
+        &:hover {
+          color: black;
+          text-decoration: underline;
+        }
+      }
+    }
+
+    form {
+      padding: 0 20px;
+
+      .MuiBox-root {
+        padding: 10px 0;
+
+        h4 {
+          padding: 4px 0;
+        }
+
+        input {
+          padding: 10px 10px;
+          width: 33ch;
+        }
+
+        textarea {
+          width: 32ch;
+          scrollbar-width: thin;
+          scrollbar-color: #0000007d #000000a1;
+
+          // &::-webkit-scrollbar {
+          //   border-radius: 20px;
+          // }
+
+          // &::-webkit-scrollbar-thumb {
+          //   background: #7b063691;
+          // }
+
+          // &::-webkit-scrollbar-track {
+          //   background: green;
+          // }
+
+          // &::-webkit-scrollbar-track-piece {
+          //   background-color: #ffffffc6;
+          //   border-radius: 30px;
+          //   cursor: context-menu;
+          // }
+
+          // &::-webkit-scrollbar-button {
+          //   background-color: #ffffffc6;
+          // }
+
+          &::-webkit-scrollbar-button {
+            &:single-button {
+              background-color: rgb(64, 64, 255);
+              display: block;
+              background-size: 10px;
+              background-repeat: no-repeat;
+            }
+          }
+        }
+
+        fieldset {
+          padding: 0;
+        }
+      }
+
+      button {
+        display: grid;
+      }
+    }
+  }
+}
+
+@media (prefers-color-scheme: "dark") {
+  section.contact-component {
+  }
+}
+
+@media (max-width: 700px) {
+  section.contact-component {
+    height: unset;
+
+    .contact {
+      flex-direction: column;
+      gap: 20px;
+    }
+  }
+}

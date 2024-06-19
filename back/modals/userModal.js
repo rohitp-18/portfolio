@@ -18,6 +18,23 @@ const userSchema = new mongoose.Schema(
       type: String,
       require: [true, "Please Enter any password"],
     },
+
+    avatar: {
+      public_id: {
+        type: String,
+        require: true,
+      },
+      url: {
+        type: String,
+        require: true,
+      },
+    },
+
+    role: {
+      type: String,
+      default: "user",
+    },
+
     createdAt: {
       type: Date,
       default: new Date(Date.now()),
@@ -39,6 +56,7 @@ userSchema.pre("save", async function () {
   if (this.isModified("password")) {
     this.password = await bcrypt.hash(this.password, 9);
   }
+  return;
 });
 
 userSchema.methods.comparePassword = async function (password) {
@@ -46,3 +64,5 @@ userSchema.methods.comparePassword = async function (password) {
 };
 
 const User = mongoose.model("uses", userSchema);
+
+module.exports = User;
