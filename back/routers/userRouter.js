@@ -19,7 +19,7 @@ router.post("/register", registerUser);
 router.get("/logout", auth, logout);
 router.put("/update", auth, updateUser);
 
-router.get("/users", allUser);
+router.get("/admin", allUser);
 router
   .route("/admin/:id")
   .put(auth, authorizeRole("admin"), adminUpdateUser)

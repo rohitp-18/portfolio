@@ -1,18 +1,19 @@
 import React from "react";
 import "./about.scss";
-import about from "../../../assets/about.jpg";
+import image from "../../../assets/about.jpg";
+import parser from "html-react-parser";
 
-function About() {
+function About({ about }) {
   return (
     <>
       <section className="about-component">
         <div className="image">
-          <img src={about} />
+          <img src={image} />
         </div>
         <div className="about-me">
           <h2 className="about">About Me</h2>
           <p>
-            Hii, I am <b>MERN Stack Web developer...</b>
+            {/* Hii, I am <b>MERN Stack Web developer...</b>
             <br /> I have strong command on React.js and Node.js with
             Express.js, I have completed my B.sc 1st year with 9.54 CGPA and 81
             percentage
@@ -27,7 +28,8 @@ function About() {
             <i>
               Tip:- You can see all the project images on the linkedIn account
             </i>
-            <br />
+            <br /> */}
+            {parser(about.about)}
           </p>
         </div>
       </section>

@@ -1,0 +1,59 @@
+.modal-admin-user {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+
+  form.update-user {
+    width: 500px;
+    padding: 20px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 100vh;
+    overflow: auto;
+
+    h2 {
+      text-align: center;
+    }
+
+    label {
+      padding-top: 20px;
+      display: block;
+      opacity: 0.8;
+      font-size: 15px;
+    }
+
+    .box-button {
+      padding-top: 20px;
+      margin-left: 270px;
+      display: flex;
+      gap: 10px;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .modal-admin-user {
+    form.update-user {
+      width: 100%;
+      max-width: 500px;
+
+      label {
+        padding-top: 15px;
+        display: block;
+        opacity: 0.8;
+        font-size: 14px;
+      }
+
+      .box-button {
+        padding-top: 10px;
+        margin-left: unset;
+        display: flex;
+        gap: 10px;
+      }
+    }
+  }
+}
+
+

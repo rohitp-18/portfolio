@@ -1,0 +1,36 @@
+main.main-sign {
+  background-color: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+
+  section.section-sign {
+    display: grid;
+    place-items: center;
+    form {
+      width: 330px;
+      padding: 20px;
+
+      .form {
+        label {
+          padding-top: 20px;
+          display: block;
+          opacity: 0.8;
+          font-size: 15px;
+        }
+
+        button {
+          margin: 0 auto;
+          margin-top: 25px;
+          margin-bottom: 10px;
+          display: grid;
+          min-width: 80%;
+          width: 50px;
+        }
+
+        a {
+          color: #2669ce;
+        }
+      }
+    }
+  }
+}

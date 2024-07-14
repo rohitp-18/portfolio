@@ -1,0 +1,25 @@
+main.main-all-skills {
+  width: 100%;
+  padding: 10px;
+  min-height: 100vh;
+  overflow: auto;
+
+  section.section-skills {
+    .MuiDataGrid-main {
+      min-height: 400px;
+    }
+  }
+}
+
+.model-admin-user {
+  min-height: 100vh;
+}
+
+@media (max-width: 700px) {
+  main.main-all-skills {
+    padding: 2px;
+
+    section.section-skills {
+    }
+  }
+}

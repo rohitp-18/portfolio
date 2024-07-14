@@ -1,6 +1,8 @@
 const expressAsyncHandler = require("express-async-handler");
 const ErrorHandler = require("../utils/errorHandler");
 const Message = require("../modals/messageModal");
+const mongoose = require("mongoose");
+const { MongoClient } = require("mongodb");
 
 const createMessage = expressAsyncHandler(async (req, res, next) => {
   const { name, email, message } = req.body;
@@ -18,4 +20,26 @@ const createMessage = expressAsyncHandler(async (req, res, next) => {
   res.status(200).json({ success: true, message: mmessage });
 });
 
-module.exports = { createMessage };
+const allMessage = expressAsyncHandler(async (req, res, next) => {
+  const messages = await Message.find().sort({ createdAt: -1 });
+
+  res.status(200).json({ success: true, messages });
+});
+
+const readMessage = expressAsyncHandler(async (req, res, next) => {
+  const client = await MongoClient.connect("mongodb://localhost:27017/");
+
+  // const coll = client.collection("users");
+  const coll = client.db("E-Commerce").collection("users");
+  const cursor = coll.watch();
+  console.log("cursor", cursor);
+  const messages = await cursor.toArray();
+  console.log(messages);
+  await client.close();
+
+  // const messages = await Message.find().sort({ createdAt: -1 });
+
+  res.status(200).json({ success: true, messages });
+});
+
+module.exports = { createMessage, allMessage, readMessage };

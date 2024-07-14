@@ -1,6 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./contact.scss";
-import { Box, Button, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  TextField,
+  ThemeProvider,
+  Typography,
+  createTheme,
+} from "@mui/material";
 import {
   EmailOutlined,
   GitHub,
@@ -26,6 +33,8 @@ function Contact() {
 
   //const getCurrentTheme = () =>
   // window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+  const newTheme = createTheme({ palette: { mode: "light" } });
 
   useEffect(() => {
     // console.log(getCurrentTheme());
@@ -100,38 +109,40 @@ function Contact() {
           </Link>
         </div>
         <form onSubmit={(e) => formSubmit(e)}>
-          <Box>
-            <h4>Name</h4>
-            <TextField
-              placeholder="Your Name"
-              value={name}
-              type="text"
-              onChange={(e) => setName(e.target.value)}
-            />
-          </Box>
-          <Box>
-            <h4>Email</h4>
-            <TextField
-              placeholder="Your Email"
-              value={email}
-              type="email"
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </Box>
-          <Box>
-            <h4>Message</h4>
-            <TextField
-              placeholder="Your Message"
-              value={message}
-              multiline
-              type="text"
-              rows={5}
-              onChange={(e) => setMessage(e.target.value)}
-            />
-          </Box>
-          <Button type="submit" disabled={loading} variant="contained">
-            Send
-          </Button>
+          <ThemeProvider theme={newTheme}>
+            <Box>
+              <h4>Name</h4>
+              <TextField
+                placeholder="Your Name"
+                value={name}
+                type="text"
+                onChange={(e) => setName(e.target.value)}
+              />
+            </Box>
+            <Box>
+              <h4>Email</h4>
+              <TextField
+                placeholder="Your Email"
+                value={email}
+                type="email"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </Box>
+            <Box>
+              <h4>Message</h4>
+              <TextField
+                placeholder="Your Message"
+                value={message}
+                multiline
+                type="text"
+                rows={5}
+                onChange={(e) => setMessage(e.target.value)}
+              />
+            </Box>
+            <Button type="submit" disabled={loading} variant="contained">
+              Send
+            </Button>
+          </ThemeProvider>
         </form>
       </div>
     </section>

@@ -1,8 +1,9 @@
 section.project-component {
-  background-color: #d4e1d1;
+  background-color: var(--project-bg);
   border-radius: 15px;
   min-height: unset !important;
   height: 500px !important;
+  color: var(--project-tc);
 
   h2 {
     text-align: center;
@@ -27,6 +28,11 @@ section.project-component {
       h3 {
         font-size: 18px;
         font-weight: 600;
+      }
+
+      &:hover {
+        scale: 1.01;
+        box-shadow: 0 0 40px #4c6edd;
       }
     }
   }

@@ -1,0 +1,33 @@
+main.main-all-projects {
+  width: 100%;
+  padding: 10px;
+  padding-top: 20px;
+  min-height: 100vh;
+
+  section.section-projects {
+    .mobile {
+      display: none;
+    }
+    .laptop {
+      display: block;
+    }
+    .MuiDataGrid-main {
+      min-height: 400px;
+    }
+  }
+}
+
+@media (max-width: 700px) {
+  main.main-all-projects {
+    padding: 2px;
+
+    section.section-projects {
+      .laptop {
+        display: none;
+      }
+      .mobile {
+        display: block;
+      }
+    }
+  }
+}

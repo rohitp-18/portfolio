@@ -10,6 +10,9 @@ const projectSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    category: {
+      type: String,
+    },
     images: [
       {
         public_id: {
@@ -24,15 +27,19 @@ const projectSchema = new mongoose.Schema(
     ],
     skills: [
       {
-        id: {
-          type: mongoose.Schema.ObjectId,
-        },
+        type: mongoose.Schema.ObjectId,
+        ref: "Skill",
       },
     ],
+    user: {
+      type: mongoose.Schema.ObjectId,
+      ref: "user",
+    },
     updatedAt: [
       {
         user: {
           type: mongoose.Schema.ObjectId,
+          ref: "user",
         },
         date: {
           type: Date,

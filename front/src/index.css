@@ -1,6 +1,53 @@
-*{
+.light {
+  --nav-bg: #fff;
+  --nav-tc: black;
+  --main-bg: #f5f5f5;
+  --login-bg: #eee;
+  --login-tc: #999;
+  --about-bg: linear-gradient(to right, #0cb090, #0a292385);
+  --about-tc: #efeffe;
+  --bg: #eaeaea;
+  --form-bg: #ededed;
+  --skill-bg: #cecea5;
+  --skill-tc: #f5f5f5;
+  --project-bg: #d4e1d1;
+  --project-tc: black;
+  --project-p-bg: #cfe8fc;
+  --scrollbar-color: #eaeaea #fff;
+}
+.dark {
+  --nav-bg: #333;
+  --nav-tc: white;
+  --main-tc: #fff;
+  --main-bg: #1e1e1e;
+  --login-bg: #eee;
+  --login-tc: #999;
+  --about-bg: linear-gradient(to right, #43cfb3, #0a1715);
+  --about-tc: white;
+  --bg: #212121;
+  --text: #ddd;
+  --form-bg: #ededed;
+  --skill-bg: #8e8e7d;
+  --skill-tc: #181818;
+  --project-bg: #2b4526;
+  --project-tc: white;
+  --project-p-bg: #44494d;
+  --scrollbar-color: #313131 #525252;
+}
+
+* {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: 'Roboto';
+  font-family: "Roboto";
+  letter-spacing: 0.5px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-color);
+}
+
+body {
+  scrollbar-width: none;
+}
+
+@media (prefers-color-scheme: dark) {
 }

@@ -2,6 +2,43 @@ const expressAsyncHandler = require("express-async-handler");
 const ErrorHandler = require("../utils/errorHandler");
 const About = require("../modals/aboutModel");
 
+const changeDefault = expressAsyncHandler(async (req, res, next) => {
+  const { id } = req.params;
+
+  const oldAbout = await About.findOneAndUpdate(
+    { show: true },
+    { show: false }
+  );
+
+  if (!oldAbout) {
+    return next(new ErrorHandler("Internal Error", 500));
+  }
+
+  const about = await About.findByIdAndUpdate(id, { show: true });
+
+  if (!about) {
+    return next(new ErrorHandler("Internal Error", 500));
+  }
+
+  res.status(200).json({
+    success: true,
+    about,
+  });
+});
+
+const getDefault = expressAsyncHandler(async (req, res, next) => {
+  const about = await About.find({ show: true });
+
+  if (!about) {
+    return next(new ErrorHandler("Internal Error", 500));
+  }
+
+  res.status(200).json({
+    success: true,
+    about,
+  });
+});
+
 const createEducation = expressAsyncHandler(async (req, res, next) => {
   const { id } = req.params;
   const { name, college, marks, year, icon } = req.body;
@@ -37,7 +74,7 @@ const sendEducation = expressAsyncHandler(async (req, res, next) => {
 
 const updateEducation = expressAsyncHandler(async (req, res, next) => {
   const { id } = req.params;
-  const { req } = req.query;
+  const { reqId } = req.query;
   const { name, college, marks, year, icon } = req.body;
 
   if (!name || !college || !marks || !year || !icon) {
@@ -51,8 +88,8 @@ const updateEducation = expressAsyncHandler(async (req, res, next) => {
   }
 
   about.education.forEach((val) => {
-    if (val._id === req) {
-      return req;
+    if (val._id === reqId) {
+      return reqId;
     }
     return val;
   });
@@ -64,7 +101,7 @@ const updateEducation = expressAsyncHandler(async (req, res, next) => {
 
 const deleteEducation = expressAsyncHandler(async (req, res, next) => {
   const { id } = req.params;
-  const { req } = req.query;
+  const { reqId } = req.query;
 
   const about = await About.findById(id);
 
@@ -72,7 +109,7 @@ const deleteEducation = expressAsyncHandler(async (req, res, next) => {
     return next(new ErrorHandler("Information not found", 404));
   }
 
-  about.education.filter((val) => val._id !== req);
+  about.education.filter((val) => val._id !== reqId);
 
   res.status(200).json({ success: true, about });
 });
@@ -124,7 +161,26 @@ const createAbout = expressAsyncHandler(async (req, res, next) => {
   });
 });
 
+const deleteAbout = expressAsyncHandler(async (req, res, next) => {
+  const { id } = req.params;
+
+  const about = await About.findByIdAndDelete(id);
+
+  if (!about) {
+    return next(new ErrorHandler("Invalid Id", 403));
+  }
+
+  res.status(200).json({
+    success: true,
+    about,
+  });
+});
+
 module.exports = {
+  changeDefault,
+  getDefault,
+  createAbout,
+  deleteAbout,
   createEducation,
   sendEducation,
   updateEducation,

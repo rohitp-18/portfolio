@@ -4,6 +4,10 @@ const aboutSchema = new mongoose.Schema({
   name: {
     type: String,
   },
+  show: {
+    type: Boolean,
+    default: false,
+  },
   work: [
     {
       type: String,

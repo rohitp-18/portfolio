@@ -1,8 +1,8 @@
-import axios from "axios";
+import Axios from "axios";
 
-const instanse = axios.create({
+const axios = Axios.create({
   baseURL: "http://localhost:5000/api/v1",
   withCredentials: true,
 });
 
-export default instanse;
+export default axios;

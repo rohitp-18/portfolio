@@ -1,3 +1,6 @@
+const fs = require("fs");
+const path = require("path");
+
 const error = (err, req, res, next) => {
   let message = err.message || "Internal error";
   let status = err.status || 500;

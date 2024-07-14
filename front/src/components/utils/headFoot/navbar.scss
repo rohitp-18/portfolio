@@ -3,10 +3,9 @@
   top: 0;
   padding: 20px 30px;
   width: 100%;
-  background-color: white;
+  background-color: var(--nav-bg);
   margin: 0 auto;
-  --color: black;
-  color: black;
+  color: var(--nav-tc);
   z-index: 2;
 
   .navbar-div {
@@ -28,7 +27,7 @@
 
       a {
         text-decoration: none;
-        color: var(--color);
+        color: var(--nav-tc);
         padding: 5px 8px;
         font-weight: 600;
         cursor: pointer;
@@ -42,6 +41,78 @@
 
   .mobile-div {
     display: none;
+  }
+}
+
+.navbar-drawer {
+  color: green;
+
+  .drawer {
+    width: 300px;
+    position: relative;
+    min-height: 100vh;
+    padding: 20px 0;
+    padding-bottom: 50px;
+
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 30px;
+    }
+
+    .logo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 5px;
+      padding: 20px 0;
+
+      .MuiAvatar-root {
+        width: 90px;
+        height: 90px;
+      }
+
+      b {
+        font-size: large;
+        color: #003bff;
+      }
+    }
+
+    .mobile-nevigation {
+      display: flex;
+      justify-content: space-between;
+      flex-direction: column;
+
+      a {
+        text-decoration: none;
+        color: var(--text);
+        padding: 15px 10px;
+        font-weight: 600;
+        cursor: pointer;
+        width: 100%;
+
+        &:hover {
+          background-color: #b7b7b7;
+        }
+
+        &.active {
+          color: #003bff;
+        }
+      }
+    }
+
+    .div {
+      position: absolute;
+      bottom: 10px;
+      left: 70px;
+      font-size: 15px;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
   }
 }
 
@@ -61,75 +132,6 @@
         display: flex;
         align-items: center;
         gap: 10px;
-      }
-    }
-  }
-  .navbar-drawer {
-    color: green;
-
-    .drawer {
-      width: 300px;
-      position: relative;
-      min-height: 100vh;
-      padding: 20px 0;
-
-      .close {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        font-size: 30px;
-      }
-
-      .logo {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        gap: 5px;
-        padding: 20px 0;
-
-        .MuiAvatar-root {
-          width: 90px;
-          height: 90px;
-        }
-
-        b {
-          font-size: large;
-          color: #003bff;
-        }
-      }
-
-      .mobile-nevigation {
-        display: flex;
-        justify-content: space-between;
-        flex-direction: column;
-
-        a {
-          text-decoration: none;
-          color: black;
-          padding: 15px 10px;
-          font-weight: 600;
-          cursor: pointer;
-          width: 100%;
-
-          &:hover {
-            background-color: #b7b7b7;
-          }
-
-          &.active {
-            color: #003bff;
-          }
-        }
-      }
-
-      .div {
-        position: absolute;
-        bottom: 10px;
-        left: 70px;
-
-        &:hover {
-          text-decoration: underline;
-        }
       }
     }
   }

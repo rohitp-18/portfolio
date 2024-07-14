@@ -20,7 +20,6 @@ const loginUser = expressAsyncHandler(async (req, res, next) => {
     return next(new ErrorHandler("Please enter Valid Email and Password", 401));
   }
 
-  console.log(user);
   const isPassword = await user.comparePassword(password);
 
   if (!isPassword) {
@@ -31,9 +30,9 @@ const loginUser = expressAsyncHandler(async (req, res, next) => {
 });
 
 const registerUser = expressAsyncHandler(async (req, res, next) => {
-  const { avatar, name, email, password } = req.body;
+  const { name, email, password } = req.body;
 
-  const user = await User.create({ avatar, email, password, name });
+  const user = await User.create({ email, password, name });
 
   if (!user) {
     return next(new ErrorHandler("Internal Error", 500));
@@ -98,13 +97,13 @@ const deleteUser = expressAsyncHandler(async (req, res, next) => {
 
 const adminUpdateUser = expressAsyncHandler(async (req, res, next) => {
   const { id } = req.params;
-  const { name, avatar, email, role, password } = req.body;
+  const { name, avatar, email, role } = req.body;
 
   if ((!name, !email, !password || !role)) {
     return next(new ErrorHandler("Please fill all required fields", 403));
   }
 
-  let data = { name, email, password, role };
+  let data = { name, email, role };
   if (avatar) {
     //upload imgage
     data = { ...data, avatar: { public_id: "id", url: "jsnf" } };

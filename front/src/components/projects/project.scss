@@ -1,0 +1,147 @@
+main.project-main {
+  width: 100%;
+  background-color: var(--project-p-bg);
+  margin: 0;
+  color: var(--text);
+
+  section.project-section {
+    // background-color: #aaa;
+    min-height: 850px;
+
+    .search,
+    .mobile-search {
+      background-color: var(--bg);
+      height: 70px;
+      margin-bottom: 10px;
+      width: 100%;
+      padding: 0 45px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .logo {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+      }
+
+      .text {
+        width: 30ch;
+        .Mui-focused {
+          width: 45ch;
+        }
+      }
+
+      input {
+        width: 30h;
+        border-radius: 15px;
+
+        &:focus {
+          width: 45ch;
+        }
+      }
+
+      fieldset {
+        border-radius: 20px;
+      }
+    }
+
+    .mobile-search {
+      display: none;
+    }
+
+    .result {
+      display: flex;
+      position: relative;
+
+      .projects {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 30px;
+        width: 100%;
+
+        .card {
+          width: 280px;
+          height: 420px;
+          border-radius: 10px;
+
+          .MuiTypography-body2 {
+            height: 81px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+
+          h3 {
+            font-size: 18px;
+            font-weight: 600;
+          }
+
+          &:hover {
+            scale: 1.03;
+            transition: all 0.5;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 700px) {
+  main.project-main {
+    section.project-section {
+      .search {
+        display: none;
+      }
+      .mobile-search {
+        background-color: white;
+        height: unset;
+        display: flex;
+        padding: 0 0;
+        flex-direction: column;
+        gap: 10px;
+        padding-top: 10px;
+
+        .box {
+          display: flex;
+          width: 100%;
+          justify-content: space-between;
+          padding: 0 10px;
+        }
+
+        .box-filter {
+          display: flex;
+          width: 100%;
+          align-items: center;
+          height: 40px;
+
+          fieldset {
+            border-radius: 0;
+          }
+        }
+
+        .text {
+          width: 90%;
+
+          .Mui-focused {
+            width: unset;
+          }
+
+          input {
+            width: 30h;
+            border-radius: 15px;
+
+            &:focus {
+              width: unset;
+            }
+          }
+        }
+      }
+      .result {
+        .projects {
+          margin-left: 0;
+        }
+      }
+    }
+  }
+}
