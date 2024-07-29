@@ -61,7 +61,7 @@ function UpdateSkill({ select, setOpen }) {
       {select && (
         <Paper sx={{ maxWidth: "500px", width: "97%" }} elevation={8}>
           <form onSubmit={(e) => submitHandler(e)} className="update-user">
-            <h2>Update User</h2>
+            <h2>Update Skill</h2>
             <Box>
               <label>Name</label>
               <TextField

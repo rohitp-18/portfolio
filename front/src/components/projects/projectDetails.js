@@ -1,16 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import Markdown, { defaultUrlTransform } from "react-markdown";
-import mark from "../../README.md";
-import commerce from "../../assets/E-commerce.png";
 import Carousel from "react-material-ui-carousel";
 import "./projectDetails.scss";
 import { List, ListItem } from "@mui/material";
 import { ArrowLeft } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllProjects, getProject } from "../../redux/actions/projectAction";
-import { AlertContext } from "../utils/alertProvider";
-import { CLEAR_ERRORS } from "../../redux/constants/allConstants";
 
 function ProjectDetails() {
   const { id } = useParams();
@@ -25,11 +20,11 @@ function ProjectDetails() {
       return;
     }
     if (!projects[id]) {
-      console.log(id);
+      // console.log(id);
       navigate("/project");
       return;
     }
-    console.log(id);
+    // console.log(id);
     setProject(projects[id]);
   }, [dispatch, projects]);
   return (

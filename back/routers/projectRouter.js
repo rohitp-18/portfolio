@@ -15,19 +15,14 @@ router.get("/", allProject);
 router.post(
   "/new",
   auth,
-  // authorizeRole("admin"),
+  authorizeRole("admin"),
   upload.array("images"),
   createProject
 );
 router
   .route("/:id")
   .get(getProject)
-  .put(
-    auth,
-    upload.array("newImages"),
-    // authorizeRole("admin"),
-    updateProject
-  )
+  .put(auth, upload.array("newImages"), authorizeRole("admin"), updateProject)
   .delete(auth, authorizeRole("admin"), deleteProject);
 
 module.exports = router;

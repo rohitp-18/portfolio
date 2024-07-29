@@ -139,7 +139,7 @@ function AllProjects() {
   const closeDialog = () => {
     setOpen(false);
     setSelect(null);
-    console.log(select);
+    // console.log(select);
   };
 
   useEffect(() => {
@@ -246,7 +246,7 @@ function AllProjects() {
                 open={update}
                 onClose={() => setUpdate(false)}
               >
-                <UpdateProject project={select.project} />
+                <UpdateProject project={select.project} setUpdate={setUpdate} />
               </Modal>
             )}
           </section>

@@ -32,9 +32,9 @@ const readMessage = expressAsyncHandler(async (req, res, next) => {
   // const coll = client.collection("users");
   const coll = client.db("E-Commerce").collection("users");
   const cursor = coll.watch();
-  console.log("cursor", cursor);
+  // console.log("cursor", cursor);
   const messages = await cursor.toArray();
-  console.log(messages);
+  // console.log(messages);
   await client.close();
 
   // const messages = await Message.find().sort({ createdAt: -1 });

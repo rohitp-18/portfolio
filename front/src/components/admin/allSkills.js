@@ -192,7 +192,7 @@ function AllSkills() {
               placeContent: "center",
               paddingBottom: "10px",
             }}
-            to={"/admin/project/new"}
+            to={"/admin/skills/new"}
           >
             <Button variant="outlined">
               <Add /> Add skill

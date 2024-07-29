@@ -9,12 +9,18 @@ const uploadImage = async (error, next) => {
   await fs.readdir(
     path.resolve(path.join(__dirname, "../uploads")),
     async (err, files) => {
-      if (err) throw err;
+      if (err) {
+        console.log(err);
+        throw err;
+      }
 
       Promise.all(
         await files.map(async (file) => {
           await fs.unlink(path.join(__dirname, "../uploads", file), (err) => {
-            if (err) throw err;
+            if (err) {
+              console.log(err);
+              throw err;
+            }
           });
         })
       );
@@ -26,7 +32,7 @@ const uploadImage = async (error, next) => {
 };
 
 const createProject = expressAsyncHandler(async (req, res, next) => {
-  const { name, description, category, skills } = req.body;
+  const { name, description, category, skills, links } = req.body;
   // console.log(req.files);
 
   if (!name || !description || !req.files || !skills) {
@@ -61,6 +67,7 @@ const createProject = expressAsyncHandler(async (req, res, next) => {
     skills,
     category,
     user: req.user._id,
+    links: JSON.parse(links),
   });
 
   if (!project) {
@@ -98,7 +105,7 @@ const getProject = expressAsyncHandler(async (req, res, next) => {
 
 const updateProject = expressAsyncHandler(async (req, res, next) => {
   const { id } = req.params;
-  let { name, description, images, skills } = req.body;
+  let { name, description, images, skills, links, imageL } = req.body;
 
   if (!id) {
     await uploadImage();
@@ -110,10 +117,19 @@ const updateProject = expressAsyncHandler(async (req, res, next) => {
     return next(new ErrorHandler("Please fill all required fields", 403));
   }
 
-  let data = { name, description, images, skills };
+  let info = {
+    name,
+    description,
+    images: [],
+    skills,
+    links: JSON.parse(links),
+  };
 
-  if (!data.images) {
-    data.images = [];
+  if (imageL > 1) {
+    info.images = images.map((im) => JSON.parse(im));
+  }
+  if (imageL === "1") {
+    info.images[0] = JSON.parse(images);
   }
 
   try {
@@ -124,7 +140,8 @@ const updateProject = expressAsyncHandler(async (req, res, next) => {
           height: 200,
           crop: "pad",
         });
-        data.images[i + data.images.length] = {
+
+        info.images[i + info.images.length] = {
           public_id: data.public_id,
           url: data.secure_url,
         };
@@ -136,13 +153,14 @@ const updateProject = expressAsyncHandler(async (req, res, next) => {
     return next(new ErrorHandler("internal Error", 500));
   }
   await uploadImage();
-  const project = await Project.findByIdAndUpdate(id, data);
+  const project = await Project.findByIdAndUpdate(id, info);
 
   if (!project) {
     return next(new ErrorHandler("Project not found", 404));
   }
   res.status(200).json({
     success: true,
+    message: "project updated successfully",
     project,
   });
 });

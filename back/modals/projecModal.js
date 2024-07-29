@@ -25,6 +25,19 @@ const projectSchema = new mongoose.Schema(
         },
       },
     ],
+    links: {
+      linkedin: {
+        type: String,
+        required: true,
+      },
+      github: {
+        type: String,
+        required: true,
+      },
+      host: {
+        type: String,
+      },
+    },
     skills: [
       {
         type: mongoose.Schema.ObjectId,

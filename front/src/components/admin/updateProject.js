@@ -22,15 +22,19 @@ import {
   CheckBoxOutlineBlankOutlined,
   Close,
 } from "@mui/icons-material";
-import { updateProject } from "../../redux/actions/projectAction";
+import {
+  getAllProjects,
+  updateProject,
+} from "../../redux/actions/projectAction";
 import { useDispatch, useSelector } from "react-redux";
 import {
   CLEAR_ERRORS,
   CREATE_PROJECT_RESET,
+  UPDATE_PROJECT_RESET,
 } from "../../redux/constants/projectConstants";
 import { AlertContext } from "../utils/alertProvider";
 
-function UpdateProject({ project }) {
+function UpdateProject({ project, setUpdate }) {
   const [image, setImage] = useState([]);
   const [name, setName] = useState(project.name);
   const [skill, setSkill] = useState(project.skills.map((ski) => ski._id));
@@ -41,6 +45,7 @@ function UpdateProject({ project }) {
   const [category, setCategory] = useState(project.category);
   const [images, setImages] = useState(project.images);
   const [option, setOption] = useState([]);
+  const [links, setLinks] = useState(project.links);
 
   const catergoryList = ["mern", "react", "android"];
 
@@ -71,9 +76,13 @@ function UpdateProject({ project }) {
     const form = new FormData();
     form.append("name", name);
     form.append("category", category);
+    form.append("links", JSON.stringify(links));
     newImage.map((imd) => form.append("newImages", imd));
-    images.map((imd) => form.append("images", imd));
+    images.length > 1
+      ? images.map((imd) => form.append("images", JSON.stringify(imd)))
+      : images.length !== 0 && form.append("images", JSON.stringify(images[0]));
     skill.map((imd) => form.append("skills", imd));
+    form.append("imageL", images.length);
     form.append("description", description);
     dispatch(updateProject(project._id, form));
   };
@@ -82,9 +91,9 @@ function UpdateProject({ project }) {
     let demo = [];
     skills && skills.map((ski) => demo.push({ name: ski.name, _id: ski._id }));
     setOption(demo);
-    console.log("newImages", newImage);
-    console.log("images", images);
-    console.log("image", image);
+    // console.log("newImages", newImage);
+    // console.log("images", images);
+    // console.log("image", image);
   }, [skills]);
 
   useEffect(() => {
@@ -96,7 +105,9 @@ function UpdateProject({ project }) {
 
     if (updated) {
       sendAlert(message, "success");
-      dispatch({ type: CREATE_PROJECT_RESET });
+      dispatch({ type: UPDATE_PROJECT_RESET });
+      setUpdate(false);
+      dispatch(getAllProjects());
       return;
     }
   }, [message, error, updated, dispatch]);
@@ -257,6 +268,38 @@ function UpdateProject({ project }) {
               </Badge>
             ))}
           </Paper>
+          <Box className="input-box">
+            <label>Project LinkedIn Link</label>
+            <TextField
+              value={links.linkedin}
+              onChange={(e) => setLinks({ ...links, linkedin: e.target.value })}
+              required
+              type="url"
+              size="small"
+              fullWidth
+            />
+          </Box>
+          <Box className="input-box">
+            <label>Project GitHub Link</label>
+            <TextField
+              value={links.github}
+              onChange={(e) => setLinks({ ...links, github: e.target.value })}
+              required
+              type="url"
+              size="small"
+              fullWidth
+            />
+          </Box>
+          <Box className="input-box">
+            <label>Project hosted link</label>
+            <TextField
+              value={links.host}
+              onChange={(e) => setLinks({ ...links, host: e.target.value })}
+              type="url"
+              size="small"
+              fullWidth
+            />
+          </Box>
 
           <div className="button">
             <Button variant="contained" type="submit">

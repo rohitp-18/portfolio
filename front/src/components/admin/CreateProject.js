@@ -41,6 +41,7 @@ function CreateProject() {
   const [category, setCategory] = useState("select");
   const [images, setImages] = useState([]);
   const [option, setOption] = useState([]);
+  const [links, setLinks] = useState({});
 
   const catergoryList = ["mern", "react", "android"];
 
@@ -70,6 +71,7 @@ function CreateProject() {
     const form = new FormData();
     form.append("name", name);
     form.append("category", category);
+    form.append("links", JSON.stringify(links));
     images.map((imd) => form.append("images", imd));
     skill.map((imd) => form.append("skills", imd));
     form.append("description", description);
@@ -137,7 +139,6 @@ function CreateProject() {
                 </MenuItem>
               ))}
             </Select>
-
             <h3> Add skills</h3>
             <p>We recommended you will add top 5 skills in this section</p>
             <Autocomplete
@@ -170,7 +171,6 @@ function CreateProject() {
                 />
               )}
             />
-
             <h3>Add Images</h3>
             <p>
               We recommended you will add Images of the project in this section
@@ -238,6 +238,38 @@ function CreateProject() {
                   </Badge>
                 ))}
             </Paper>
+            <Box className="input-box">
+              <label>Project LinkedIn Link</label>
+              <TextField
+                value={links.linkedin}
+                onChange={(e) => setLinks({ linkedin: e.target.value })}
+                type="url"
+                size="small"
+                required
+                fullWidth
+              />
+            </Box>
+            <Box className="input-box">
+              <label>Project GitHub Link</label>
+              <TextField
+                value={links.github}
+                onChange={(e) => setLinks({ github: e.target.value })}
+                required
+                type="url"
+                size="small"
+                fullWidth
+              />
+            </Box>
+            <Box className="input-box">
+              <label>Project hosted link</label>
+              <TextField
+                value={links.host}
+                onChange={(e) => setLinks({ host: e.target.value })}
+                type="url"
+                size="small"
+                fullWidth
+              />
+            </Box>
 
             <div className="button">
               <Button variant="contained" type="submit">
