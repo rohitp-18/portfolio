@@ -32,8 +32,9 @@ section.about-component {
 
 @media (max-width: 650px) {
   section.about-component {
-    background: linear-gradient(to bottom, #0cb090, #0a292300);
+    background: linear-gradient(to bottom, #0cb090, #0a2923);
     flex-direction: column;
+    height: 700px;
 
     .image {
       width: 300px;

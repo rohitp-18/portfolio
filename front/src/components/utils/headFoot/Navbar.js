@@ -1,22 +1,32 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Avatar,
+  Box,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
+  IconButton,
   SwipeableDrawer,
+  useTheme,
 } from "@mui/material";
 import "./navbar.scss";
 import { Link } from "react-scroll";
-import { Close, Menu } from "@mui/icons-material";
+import {
+  Brightness1,
+  Brightness4,
+  Brightness7,
+  Close,
+  Menu,
+} from "@mui/icons-material";
 import logo from "../../../assets/logoe.jpg";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { ColorModeContext } from "../themes/context";
 
-function Links({ user }) {
+function Links({ user, callBack }) {
   return (
     <>
       {user ? (
@@ -27,22 +37,46 @@ function Links({ user }) {
         </>
       ) : (
         <>
-          <Link spy smooth activeClass="active" to={"home"}>
+          <Link spy smooth onClick={callBack} activeClass="active" to={"home"}>
             Home
           </Link>
-          <Link spy smooth activeClass="active" to={"about"}>
+          <Link spy smooth onClick={callBack} activeClass="active" to={"about"}>
             About
           </Link>
-          <Link spy smooth activeClass="active" to={"skills"}>
+          <Link
+            spy
+            smooth
+            onClick={callBack}
+            activeClass="active"
+            to={"skills"}
+          >
             Skills
           </Link>
-          <Link spy smooth activeClass="active" to={"project"}>
+          <Link
+            spy
+            smooth
+            onClick={callBack}
+            activeClass="active"
+            to={"project"}
+          >
             Project
           </Link>
-          <Link spy smooth activeClass="active" to={"education"}>
+          <Link
+            spy
+            smooth
+            onClick={callBack}
+            activeClass="active"
+            to={"education"}
+          >
             Education
           </Link>
-          <Link spy smooth activeClass="active" to={"contact"}>
+          <Link
+            spy
+            smooth
+            onClick={callBack}
+            activeClass="active"
+            to={"contact"}
+          >
             Contact
           </Link>
         </>
@@ -55,6 +89,20 @@ function Navbar() {
   const [open, setOpen] = useState(false);
   const [terms, setTerms] = useState(false);
   const { user } = useSelector((state) => state.user);
+  const theme = useTheme();
+  const colorMode = useContext(ColorModeContext);
+
+  const changeTheme = (them) => {
+    if (them === "light") {
+      colorMode.toggleCMode();
+      document.body.className = "dark";
+      localStorage.setItem("mode", "dark");
+    } else {
+      colorMode.toggleCMode();
+      document.body.className = "light";
+      localStorage.setItem("mode", "light");
+    }
+  };
 
   return (
     <>
@@ -66,13 +114,35 @@ function Navbar() {
           </div>
           <div className="navigation">
             <Links user={user} />
+            <IconButton
+              sx={{ ml: "20px" }}
+              onClick={() => changeTheme(theme.palette.mode)}
+            >
+              {theme.palette.mode === "light" ? (
+                <Brightness4 />
+              ) : (
+                <Brightness7 />
+              )}
+            </IconButton>
           </div>
         </div>
         <div className="mobile-div">
-          <Menu onClick={() => setOpen(true)} />
+          <Box sx={{ display: "flex", alignItems: "center", gap: "5px" }}>
+            <Menu onClick={() => setOpen(true)} />
+            <IconButton
+              sx={{ ml: "5px" }}
+              onClick={() => changeTheme(theme.palette.mode)}
+            >
+              {theme.palette.mode === "light" ? (
+                <Brightness4 />
+              ) : (
+                <Brightness7 />
+              )}
+            </IconButton>
+          </Box>
           <div className="logo">
             <h3>Rohit Patil</h3>
-            <Avatar src="https://res.cloudinary.com/duzcxjof1/image/upload/v1712508241/Avatar/mxpld2r5rhdktonfxnau.jpg" />
+            <Avatar src={logo} />
           </div>
           <SwipeableDrawer
             onOpen={() => setOpen(true)}
@@ -81,14 +151,16 @@ function Navbar() {
             onClose={() => setOpen(false)}
           >
             <div className="drawer">
-              <Close className="close" />
+              <IconButton className="close" onClick={() => setOpen(false)}>
+                <Close />
+              </IconButton>
               <div className="logo">
-                <Avatar src="https://res.cloudinary.com/duzcxjof1/image/upload/v1712508241/Avatar/mxpld2r5rhdktonfxnau.jpg" />
+                <Avatar src={logo} />
                 <h3>Rohit Patil</h3>
                 <b>A MERN Stack Web developer</b>
               </div>
               <div className="mobile-nevigation">
-                <Links user={user} />
+                <Links callBack={() => setOpen(false)} user={user} />
               </div>
 
               <div className="div" onClick={() => setTerms(true)}>

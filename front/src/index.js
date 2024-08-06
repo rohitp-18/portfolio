@@ -6,16 +6,15 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import "@fontsource/roboto";
-import { ThemeProvider } from "@mui/material";
-import theme from "./components/utils/themes/muiTheme";
+import ColorModeProvider from "./components/utils/themes/context";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ThemeProvider theme={theme}>
+      <ColorModeProvider>
         <App />
-      </ThemeProvider>
+      </ColorModeProvider>
     </Provider>
   </React.StrictMode>
 );

@@ -11,8 +11,6 @@ import LoginPage from "./components/admin/LoginPage";
 import ProjectDetails from "./components/projects/projectDetails";
 import SignupPage from "./components/admin/SignupPage";
 import CreateProject from "./components/admin/CreateProject";
-import { useTheme } from "@emotion/react";
-import theme from "./components/utils/themes/muiTheme";
 import ProtectRoute from "./components/utils/protectRoute";
 import CreateSkill from "./components/admin/createSkill";
 import AllProjects from "./components/admin/allProjects";
@@ -112,54 +110,21 @@ function App() {
     store.dispatch(allAction());
   }, [store]);
 
-  const themes = useTheme(theme);
-  const [mode, setMode] = useState(
-    window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
-  );
+  (() => {
+    let themess = localStorage.getItem("mode");
 
-  useEffect(() => {
-    let theme = localStorage.getItem("theme");
-    if (!theme)
-      theme = window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light";
+    if (!themess) {
+      localStorage.setItem("mode", "light");
+      themess = "light";
+    }
 
-    setMode(theme);
-    document.body.className = theme;
-  }, [mode]);
-
-  const data = window.matchMedia("(prefers-color-scheme: dark)");
-
-  data.addEventListener("change", (e) => {
-    setMode(
-      (themes.palette.mode = window.matchMedia("(prefers-color-scheme: dark)")
-        .matches
-        ? "dark"
-        : "light")
-    );
-  });
-  // useEffect(() => {
-  // }, [mode, theme.palette]);
-
-  // const submit = () => {
-  //   window.matchMedia("(prefers-color-scheme: dark)").dispatchEvent("change");
-  //   console.log(window.matchMedia("(prefers-color-scheme: dark)"));
-
-  //   setMode(
-  //     (themes.palette.mode = window.matchMedia("(prefers-color-scheme: dark)")
-  //       .matches
-  //       ? "dark"
-  //       : "light")
-  //   );
-  //   console.log(mode);
-  // };
+    document.body.className = themess;
+  })();
 
   return (
-    <div className={mode}>
-      <AlertProvider>
-        <RouterProvider router={router} />
-      </AlertProvider>
-    </div>
+    <AlertProvider>
+      <RouterProvider router={router} />
+    </AlertProvider>
   );
 }
 

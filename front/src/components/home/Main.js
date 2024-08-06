@@ -7,7 +7,7 @@ import About from "./components/About";
 import Education from "./components/Education";
 import Project from "./components/Project";
 import Skills from "./components/Skills";
-import { Fade, Zoom, Slide, Bounce } from "react-awesome-reveal";
+import { Fade, Zoom, Slide } from "react-awesome-reveal";
 import Contact from "./components/Contact";
 import {
   Button,
@@ -69,12 +69,12 @@ function Main() {
               </Slide>
             </div>
             <div id="project" className="main-div">
-              <Bounce>
+              <Slide direction="right">
                 <Project project={project} />
-              </Bounce>
+              </Slide>
             </div>
             <div id="education" className="main-div">
-              <Slide direction="up">
+              <Slide direction="left">
                 <Education />
               </Slide>
             </div>
