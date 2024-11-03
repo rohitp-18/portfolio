@@ -34,7 +34,7 @@ function SignupPage() {
   };
 
   useEffect(() => {
-    user && navigate("/admin");
+    user && navigate("/admin/projects");
   }, [user, navigate]);
 
   useEffect(() => {

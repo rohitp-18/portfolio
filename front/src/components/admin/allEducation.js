@@ -7,25 +7,24 @@ import {
   DialogContentText,
   DialogTitle,
   Modal,
+  TextField,
 } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import { DataGrid, GridActionsCellItem, GridToolbar } from "@mui/x-data-grid";
 import "./allProject.scss";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  Add,
-  Circle,
-  Delete,
-  Edit,
-  EmergencyRecording,
-} from "@mui/icons-material";
+import { Add, Circle, Delete, Edit, Search } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
-import { AlertContext } from "../utils/alertProvider";
-import UpdateProject from "./updateProject";
 import {
-  deleteProject,
-  getAllProjects,
-} from "../../redux/actions/projectAction";
+  deleteEducation,
+  getAllEducation,
+} from "../../redux/actions/allAction";
+import UpdateEducation from "./updateEducation";
+import { AlertContext } from "../utils/alertProvider";
+import {
+  CLEAR_ERRORS,
+  DELETE_EDUCATION_RESET,
+} from "../../redux/constants/allConstants";
 
 function ContentText({ select }) {
   const style = {
@@ -43,24 +42,28 @@ function ContentText({ select }) {
       </Box>
       <Box sx={style}>
         <h4>Name :-</h4>
-        <label>{select.name}</label>
+        <label>{select.college}</label>
       </Box>
       <Box sx={{ display: "flex", alignItems: "flex-start", mt: "30px" }}>
         <h4>description:- </h4>
-        <label>{select.description}</label>
+        <label>{select.percentage}</label>
       </Box>
     </>
   );
 }
 
-function AllProjects() {
+function AllEducation() {
   const [open, setOpen] = useState(false);
   const [dialog, setDialog] = useState(false);
   const [update, setUpdate] = useState(false);
   const [select, setSelect] = useState(null);
   const [rows, setRows] = useState([]);
+  const [id, setId] = useState();
 
-  const { projects } = useSelector((state) => state.project);
+  const { educations, error, deleted, message } = useSelector(
+    (state) => state.education
+  );
+  const { about } = useSelector((state) => state.all);
   const dispatch = useDispatch();
   const { sendAlert } = useContext(AlertContext);
   const navigate = useNavigate();
@@ -87,7 +90,10 @@ function AllProjects() {
       flex: 0.5,
     },
     { field: "name", headerName: "Name", minWidth: 100, flex: 1 },
-    { field: "category", headerName: "Category", minWidth: 100, flex: 1 },
+    { field: "percentage", headerName: "Percentage", minWidth: 100, flex: 1 },
+    { field: "cgpa", headerName: "CGPA", minWidth: 100, flex: 1 },
+    { field: "year", headerName: "Years", minWidth: 100, flex: 1 },
+    { field: "college", headerName: "College", minWidth: 100, flex: 1 },
     {
       field: "action",
       headerName: "Action",
@@ -110,61 +116,91 @@ function AllProjects() {
     },
   ];
 
-  const onCellChange = (e) => {
-    setSelect(e);
-    setOpen(true);
-  };
-
   useEffect(() => {
     let call = [];
-    if (projects) {
-      projects.filter((user) => {
-        user.categories =
-          user.category === "mern"
-            ? "MERN Stack Website"
-            : user.category === "react"
-            ? "React.js Website"
-            : "Android application";
+    if (educations) {
+      educations.filter((user) => {
         call.push({
           id: user._id,
           project: user,
           name: user.name,
-          description: user.description,
-          category: user.categories,
+          percentage: user.percentage,
+          cgpa: user.cgpa,
+          year: user.year,
+          college: user.college,
         });
       });
     }
     setRows(call);
-  }, [projects]);
+  }, [educations]);
 
   const closeDialog = () => {
     setOpen(false);
     setSelect(null);
-    // console.log(select);
   };
 
   useEffect(() => {
-    dispatch(getAllProjects());
-  }, [dispatch]);
+    if (error) {
+      sendAlert(error, "error");
+      dispatch({ type: CLEAR_ERRORS });
+      return;
+    }
+
+    if (deleted) {
+      sendAlert(message, "success");
+      setDialog(false);
+      dispatch({ type: DELETE_EDUCATION_RESET });
+      dispatch(getAllEducation(id));
+      return;
+    }
+  }, [message, error, deleted, dispatch]);
+
+  useEffect(() => {
+    if (about) {
+      setId(about._id);
+      dispatch(getAllEducation(about._id));
+    }
+  }, [dispatch, about]);
   return (
     <>
-      {projects && (
+      {educations && (
         <main className="main-all-projects">
           <section className="section-projects">
-            {/* <Link
-              style={{
-                display: "grid",
-                placeContent: "center",
-                paddingBottom: "10px",
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "flex-end",
+                margin: "30px 0",
               }}
-              to={"/admin/project/new"}
-            > */}
+            >
+              <Search sx={{ color: "action.active", mr: 1, my: 0.5 }} />
+              <TextField
+                name="Name"
+                sx={{ width: "30ch", mr: "10px" }}
+                value={id}
+                variant="standard"
+                type="search"
+                onChange={(e) => setId(e.target.value)}
+              />
+              <Button
+                onClick={() =>
+                  id.length === 24 && dispatch(getAllEducation(id))
+                }
+                size="small"
+                disabled={id && id.length !== 24}
+                variant="outlined"
+              >
+                Search
+              </Button>
+            </Box>
+
             <Button
               sx={{ mb: "10px", display: "flex", ml: "auto", mr: "auto" }}
-              onClick={() => navigate("/admin/project/new")}
+              onClick={() => navigate("/admin/education/new")}
               variant="outlined"
             >
-              <Add /> Add Project
+              <Add /> Add Education
             </Button>
             {/* </Link> */}
             <DataGrid
@@ -232,7 +268,7 @@ function AllProjects() {
                   <Button onClick={() => setDialog(false)}>Cancel</Button>
                   <Button
                     variant="contained"
-                    onClick={() => dispatch(deleteProject(select.id))}
+                    onClick={() => dispatch(deleteEducation(id, select.id))}
                     color="error"
                   >
                     <Delete /> Delete
@@ -251,7 +287,11 @@ function AllProjects() {
                 open={update}
                 onClose={() => setUpdate(false)}
               >
-                <UpdateProject project={select.project} setUpdate={setUpdate} />
+                <UpdateEducation
+                  id={about._id}
+                  project={select.project}
+                  setOpen={setUpdate}
+                />
               </Modal>
             )}
           </section>
@@ -261,4 +301,4 @@ function AllProjects() {
   );
 }
 
-export default AllProjects;
+export default AllEducation;

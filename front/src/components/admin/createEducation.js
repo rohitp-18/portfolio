@@ -8,21 +8,24 @@ import {
   UPDATE_EDUCATION_RESET,
 } from "../../redux/constants/allConstants";
 import {
+  createEducation,
   getAllEducation,
-  updateEducation,
 } from "../../redux/actions/allAction";
+import { useNavigate } from "react-router-dom";
 
-function UpdateEducation({ project, id, setOpen }) {
-  const [name, setName] = useState(project.name);
-  const [college, setCollege] = useState(project.college);
-  const [percentage, setPercentage] = useState(project.percentage);
-  const [cgpa, setCgpa] = useState(project.cgpa);
-  const [icon, setIcon] = useState(project.icon);
-  const [year, setYear] = useState(project.year);
+function CreateEducation() {
+  const [name, setName] = useState();
+  const [college, setCollege] = useState();
+  const [percentage, setPercentage] = useState();
+  const [cgpa, setCgpa] = useState();
+  const [icon, setIcon] = useState();
+  const [year, setYear] = useState();
+  const [id, setId] = useState();
 
   const { sendAlert } = useContext(AlertContext);
-  const { error, message, updated } = useSelector((state) => state.education);
+  const { error, message, created } = useSelector((state) => state.education);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -31,7 +34,7 @@ function UpdateEducation({ project, id, setOpen }) {
       return sendAlert("Please fill all required fields", "info");
     }
     dispatch(
-      updateEducation(id, project._id, {
+      createEducation(id, {
         name,
         percentage,
         icon,
@@ -43,16 +46,11 @@ function UpdateEducation({ project, id, setOpen }) {
   };
 
   useEffect(() => {
-    setName(project.name);
-    setIcon(project.icon);
-  }, [project]);
-
-  useEffect(() => {
-    if (updated) {
+    if (created) {
       sendAlert(message, "success");
       dispatch({ type: UPDATE_EDUCATION_RESET });
-      setOpen(false);
       dispatch(getAllEducation(id));
+      navigate("/admin/education");
       return;
     }
 
@@ -61,23 +59,31 @@ function UpdateEducation({ project, id, setOpen }) {
       dispatch({ type: CLEAR_ERRORS });
       return;
     }
-  }, [error, updated, message, dispatch]);
+  }, [error, created, message, dispatch]);
   return (
     <>
-      {project && (
-        <Paper
-          className="paper-update-project"
-          sx={{ maxWidth: "500px", width: "97%" }}
-          elevation={8}
-        >
+      <main className="main-create-project">
+        <section className="section-project">
           <form onSubmit={(e) => submitHandler(e)} className="update-user">
-            <h2>Update Education</h2>
+            <h2>Create Education</h2>
+            <Box className="input-box">
+              <label>About Id</label>
+              <TextField
+                size="small"
+                autoFocus
+                value={id}
+                fullWidth
+                required
+                onChange={(e) => setId(e.target.value)}
+              />
+            </Box>
             <Box className="input-box">
               <label>College/University Name</label>
               <TextField
                 size="small"
                 autoFocus
                 value={college}
+                required
                 fullWidth
                 onChange={(e) => setCollege(e.target.value)}
               />
@@ -88,6 +94,7 @@ function UpdateEducation({ project, id, setOpen }) {
                 size="small"
                 autoFocus
                 value={name}
+                required
                 fullWidth
                 onChange={(e) => setName(e.target.value)}
               />
@@ -99,6 +106,7 @@ function UpdateEducation({ project, id, setOpen }) {
                 type="number"
                 onChange={(e) => setPercentage(e.target.value)}
                 size="small"
+                required
                 fullWidth
               />
             </Box>
@@ -151,20 +159,20 @@ function UpdateEducation({ project, id, setOpen }) {
             <Box className="button">
               <Button
                 sx={{ float: "left !important" }}
-                onClick={() => setOpen(false)}
+                onClick={() => navigate("/admin/education")}
                 color="error"
               >
                 Cancel
               </Button>
               <Button type="submit" variant="contained">
-                Update
+                Create
               </Button>
             </Box>
           </form>
-        </Paper>
-      )}
+        </section>
+      </main>
     </>
   );
 }
 
-export default UpdateEducation;
+export default CreateEducation;

@@ -11,21 +11,12 @@ import {
 import React, { useContext, useEffect, useState } from "react";
 import { DataGrid, GridActionsCellItem, GridToolbar } from "@mui/x-data-grid";
 import "./allProject.scss";
-import { Link, useNavigate } from "react-router-dom";
-import {
-  Add,
-  Circle,
-  Delete,
-  Edit,
-  EmergencyRecording,
-} from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
+import { Add, Delete, Edit } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { AlertContext } from "../utils/alertProvider";
-import UpdateProject from "./updateProject";
-import {
-  deleteProject,
-  getAllProjects,
-} from "../../redux/actions/projectAction";
+import { deleteAbout, getAllAbout } from "../../redux/actions/allAction";
+import UpdateAbout from "./updateAbout";
 
 function ContentText({ select }) {
   const style = {
@@ -45,22 +36,22 @@ function ContentText({ select }) {
         <h4>Name :-</h4>
         <label>{select.name}</label>
       </Box>
-      <Box sx={{ display: "flex", alignItems: "flex-start", mt: "30px" }}>
-        <h4>description:- </h4>
-        <label>{select.description}</label>
+      <Box sx={style}>
+        <h4>Show:- </h4>
+        <label>{select.show.toString()}</label>
       </Box>
     </>
   );
 }
 
-function AllProjects() {
+function AllAbout() {
   const [open, setOpen] = useState(false);
   const [dialog, setDialog] = useState(false);
   const [update, setUpdate] = useState(false);
   const [select, setSelect] = useState(null);
   const [rows, setRows] = useState([]);
 
-  const { projects } = useSelector((state) => state.project);
+  const { abouts } = useSelector((state) => state.adminAbout);
   const dispatch = useDispatch();
   const { sendAlert } = useContext(AlertContext);
   const navigate = useNavigate();
@@ -87,7 +78,7 @@ function AllProjects() {
       flex: 0.5,
     },
     { field: "name", headerName: "Name", minWidth: 100, flex: 1 },
-    { field: "category", headerName: "Category", minWidth: 100, flex: 1 },
+    { field: "show", headerName: "Show", minWidth: 100, flex: 1 },
     {
       field: "action",
       headerName: "Action",
@@ -110,45 +101,32 @@ function AllProjects() {
     },
   ];
 
-  const onCellChange = (e) => {
-    setSelect(e);
-    setOpen(true);
-  };
-
   useEffect(() => {
     let call = [];
-    if (projects) {
-      projects.filter((user) => {
-        user.categories =
-          user.category === "mern"
-            ? "MERN Stack Website"
-            : user.category === "react"
-            ? "React.js Website"
-            : "Android application";
+    if (abouts) {
+      abouts.filter((user) => {
         call.push({
           id: user._id,
-          project: user,
+          about: user,
           name: user.name,
-          description: user.description,
-          category: user.categories,
+          show: user.show,
         });
       });
     }
     setRows(call);
-  }, [projects]);
+  }, [abouts]);
 
   const closeDialog = () => {
     setOpen(false);
     setSelect(null);
-    // console.log(select);
   };
 
   useEffect(() => {
-    dispatch(getAllProjects());
+    dispatch(getAllAbout());
   }, [dispatch]);
   return (
     <>
-      {projects && (
+      {abouts && (
         <main className="main-all-projects">
           <section className="section-projects">
             {/* <Link
@@ -161,10 +139,10 @@ function AllProjects() {
             > */}
             <Button
               sx={{ mb: "10px", display: "flex", ml: "auto", mr: "auto" }}
-              onClick={() => navigate("/admin/project/new")}
+              onClick={() => navigate("/admin/about/new")}
               variant="outlined"
             >
-              <Add /> Add Project
+              <Add /> Add About
             </Button>
             {/* </Link> */}
             <DataGrid
@@ -185,19 +163,9 @@ function AllProjects() {
               <Dialog open={open} onClose={() => closeDialog()}>
                 <DialogTitle>{select.name}</DialogTitle>
                 <DialogContent>
-                  <DialogContentText>{select.description}</DialogContentText>
+                  <ContentText select={select} />
                 </DialogContent>
                 <DialogActions>
-                  <Link to={`/project/${select.id}`}>
-                    <Button color="warning">
-                      <Circle
-                        sx={{ mr: "3px" }}
-                        fontSize="10px"
-                        color="error"
-                      />
-                      Details
-                    </Button>
-                  </Link>
                   <Button
                     onClick={() => setDialog(true)}
                     variant="outlined"
@@ -232,7 +200,7 @@ function AllProjects() {
                   <Button onClick={() => setDialog(false)}>Cancel</Button>
                   <Button
                     variant="contained"
-                    onClick={() => dispatch(deleteProject(select.id))}
+                    onClick={() => dispatch(deleteAbout(select.id))}
                     color="error"
                   >
                     <Delete /> Delete
@@ -251,7 +219,7 @@ function AllProjects() {
                 open={update}
                 onClose={() => setUpdate(false)}
               >
-                <UpdateProject project={select.project} setUpdate={setUpdate} />
+                <UpdateAbout project={select.about} setUpdate={setUpdate} />
               </Modal>
             )}
           </section>
@@ -261,4 +229,4 @@ function AllProjects() {
   );
 }
 
-export default AllProjects;
+export default AllAbout;

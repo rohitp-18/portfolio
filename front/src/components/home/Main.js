@@ -75,7 +75,7 @@ function Main() {
             </div>
             <div id="education" className="main-div">
               <Slide direction="left">
-                <Education />
+                <Education about={about} />
               </Slide>
             </div>
             <div id="contact" className="main-div">

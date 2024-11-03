@@ -43,7 +43,10 @@ const aboutSchema = new mongoose.Schema({
         type: String,
         require: true,
       },
-      marks: {
+      cgpa: {
+        type: Number,
+      },
+      percentage: {
         type: Number,
         require: true,
       },

@@ -21,7 +21,7 @@ import { CLEAR_ERRORS } from "../../redux/constants/userConstants";
 import { deleteSkill, getAllSkills } from "../../redux/actions/SkillAction";
 import UpdateSkill from "./updateSkill";
 import { DELETE_SKILL_RESET } from "../../redux/constants/skillConstant";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function ContentText({ select }) {
   const style = {
@@ -82,6 +82,7 @@ function AllSkills() {
   const { message, deleted, error } = useSelector((state) => state.adminSkills);
   const { sendAlert } = useContext(AlertContext);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const deleteProject = (e) => {
     setDialog(true);
@@ -186,18 +187,14 @@ function AllSkills() {
     <>
       <main className="main-all-projects">
         <section className="section-projects">
-          <Link
-            style={{
-              display: "grid",
-              placeContent: "center",
-              paddingBottom: "10px",
-            }}
-            to={"/admin/skills/new"}
+          <Button
+            onClick={() => navigate("/admin/skills/new")}
+            sx={{ mb: "10px", display: "flex", ml: "auto", mr: "auto" }}
+            variant="outlined"
           >
-            <Button variant="outlined">
-              <Add /> Add skill
-            </Button>
-          </Link>
+            <Add /> Add skill
+          </Button>
+
           <DataGrid
             sx={{ maxWidth: "1100px", m: "0 auto" }}
             onCellClick={(e) => onCellClick(e)}

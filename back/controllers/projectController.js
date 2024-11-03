@@ -36,7 +36,6 @@ const createProject = expressAsyncHandler(async (req, res, next) => {
   // console.log(req.files);
 
   if (!name || !description || !req.files || !skills) {
-    await uploadImage();
     return next(new ErrorHandler("Please fill all required fieald", 403));
   }
 
@@ -45,20 +44,23 @@ const createProject = expressAsyncHandler(async (req, res, next) => {
   try {
     await Promise.all(
       req.files.map(async (image, i) => {
-        const data = await cloudinary.uploader.upload(image.path, {
+        const b64 = Buffer.from(image.buffer).toString("base64");
+        let dataURI = "data:" + image.mimetype + ";base64," + b64;
+        const data = await cloudinary.uploader.upload(dataURI, {
           folder: `portfolio/project/${name}`,
           height: 200,
           crop: "pad",
         });
-        avatar[i] = { public_id: data.public_id, url: data.secure_url };
+
+        info.images[i + info.images.length] = {
+          public_id: data.public_id,
+          url: data.secure_url,
+        };
       })
     );
   } catch (error) {
-    let dir = path.resolve(path.join(__dirname, "../uploads"));
-    await fs.readdirSync(dir).forEach((f) => fs.rmSync(`${dir}/${f}`));
-    return next(new ErrorHandler("Internal Error", 500));
+    return next(new ErrorHandler("internal Error", 500));
   }
-  await uploadImage();
 
   const project = await Project.create({
     name,
@@ -108,12 +110,10 @@ const updateProject = expressAsyncHandler(async (req, res, next) => {
   let { name, description, images, skills, links, imageL } = req.body;
 
   if (!id) {
-    await uploadImage();
     return next(new ErrorHandler("Cannot find id", 403));
   }
 
   if (!name || !description || !skills) {
-    await uploadImage();
     return next(new ErrorHandler("Please fill all required fields", 403));
   }
 
@@ -132,27 +132,29 @@ const updateProject = expressAsyncHandler(async (req, res, next) => {
     info.images[0] = JSON.parse(images);
   }
 
-  try {
-    await Promise.all(
-      req.files.map(async (image, i) => {
-        const data = await cloudinary.uploader.upload(image.path, {
-          folder: `portfolio/project/${name}`,
-          height: 200,
-          crop: "pad",
-        });
+  if (req.files) {
+    try {
+      await Promise.all(
+        req.files.map(async (image, i) => {
+          const b64 = Buffer.from(image.buffer).toString("base64");
+          let dataURI = "data:" + image.mimetype + ";base64," + b64;
+          const data = await cloudinary.uploader.upload(dataURI, {
+            folder: `portfolio/project/${name}`,
+            height: 200,
+            crop: "pad",
+          });
 
-        info.images[i + info.images.length] = {
-          public_id: data.public_id,
-          url: data.secure_url,
-        };
-      })
-    );
-  } catch (error) {
-    let dir = path.resolve(path.join(__dirname, "../uploads"));
-    await fs.readdirSync(dir).forEach((f) => fs.rmSync(`${dir}/${f}`));
-    return next(new ErrorHandler("internal Error", 500));
+          info.images[i + info.images.length] = {
+            public_id: data.public_id,
+            url: data.secure_url,
+          };
+        })
+      );
+    } catch (error) {
+      return next(new ErrorHandler("internal Error", 500));
+    }
   }
-  await uploadImage();
+
   const project = await Project.findByIdAndUpdate(id, info);
 
   if (!project) {

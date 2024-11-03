@@ -13,7 +13,12 @@ const projectRouter = require("./routers/projectRouter");
 const skillsRouter = require("./routers/skillsRouter");
 const messageRouter = require("./routers/messageRouter");
 const aboutRouter = require("./routers/aboutRouter");
-const { meController } = require("./about");
+const {
+  meController,
+  countViewController,
+  viewController,
+  countAdminView,
+} = require("./about");
 const cloudinary = require("cloudinary").v2;
 
 dotenv.config({ path: path.resolve(__dirname, "config/.env") });
@@ -45,6 +50,9 @@ app.use("/api/v1/message", messageRouter);
 app.use("/api/v1/about", aboutRouter);
 
 app.get("/api/v1/me", meController);
+app.get("/api/v1/view", viewController);
+app.get("/api/v1/view/:id", countViewController);
+app.get("/api/v1/admin/view", countAdminView);
 
 app.use(error);
 

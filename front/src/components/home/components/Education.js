@@ -6,42 +6,44 @@ import {
 } from "react-vertical-timeline-component";
 import "react-vertical-timeline-component/style.min.css";
 import "./education.scss";
+import parser from "html-react-parser";
 
-function Education() {
+function Education({ about }) {
   return (
     <section className="education-component">
       <h2>Education Qualification</h2>
       <VerticalTimeline>
-        <VerticalTimelineElement
-          className="vertical-timeline-element--work"
-          contentStyle={{ background: "rgb(33, 150, 243)", color: "#fff" }}
-          contentArrowStyle={{ borderRight: "7px solid  rgb(33, 150, 243)" }}
-          date="2023 - present"
-          iconStyle={{ background: "rgb(33, 150, 243)", color: "#fff" }}
-          icon={<Search />}
-        >
-          <h3 className="vertical-timeline-element-title">
-            Punyashlok ahilybai holkar, solapur University
-          </h3>
-          <h4 className="vertical-timeline-element-subtitle">
-            B.Sc (Computer Science) I
-          </h4>
-          <p>CGPA :- 9.54</p>
-        </VerticalTimelineElement>
-        <VerticalTimelineElement
-          className="vertical-timeline-element--work"
-          contentStyle={{ background: "rgb(33, 150, 243)", color: "#fff" }}
-          contentArrowStyle={{ borderRight: "7px solid  rgb(33, 150, 243)" }}
-          date="2023"
-          iconStyle={{ background: "rgb(33, 150, 243)", color: "#fff" }}
-          icon={<Search />}
-        >
-          <h3 className="vertical-timeline-element-title">HSC Class 12th</h3>
-          <h4 className="vertical-timeline-element-subtitle">SGRGS, Paranda</h4>
-          <p>
-            Percentage:- <b>65%</b>
-          </p>
-        </VerticalTimelineElement>
+        {about.education.map((e) => (
+          <VerticalTimelineElement
+            key={e._id}
+            className="vertical-timeline-element--work"
+            contentStyle={{ background: "rgb(33, 150, 243)", color: "#fff" }}
+            contentArrowStyle={{ borderRight: "7px solid  rgb(33, 150, 243)" }}
+            date={e.year}
+            iconStyle={{ background: "rgb(33, 150, 243)", color: "#fff" }}
+            icon={e.icon ? parser(e.icon) : <Search />}
+          >
+            <h3 className="vertical-timeline-element-title">{e.college}</h3>
+            <h4 className="vertical-timeline-element-subtitle">{e.name}</h4>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                gap: "10px",
+              }}
+            >
+              <p>
+                Percentage :- <b>{e.percentage}%</b>
+              </p>
+              {e.cgpa && (
+                <p>
+                  CGPA :- <b>{e.cgpa}</b>
+                </p>
+              )}
+            </div>
+          </VerticalTimelineElement>
+        ))}
       </VerticalTimeline>
     </section>
   );

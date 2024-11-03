@@ -4,7 +4,6 @@ import "./home.scss";
 import TypeWriter from "typewriter-effect";
 import { WhatsApp } from "@mui/icons-material";
 import { Link } from "react-router-dom";
-import logo2 from "../../../assets/logoe.jpg";
 import pdf from "../../../assets/rohit_patil.pdf";
 import parser from "html-react-parser";
 
@@ -39,7 +38,7 @@ function Home({ about }) {
         </div>
       </div>
       <div className="image">
-        <img src={logo2} />
+        <img src={about.avatar} alt={about.name} />
       </div>
     </section>
   );

@@ -1,6 +1,5 @@
 import React from "react";
 import "./about.scss";
-import image from "../../../assets/about.jpg";
 import parser from "html-react-parser";
 
 function About({ about }) {
@@ -8,7 +7,7 @@ function About({ about }) {
     <>
       <section className="about-component">
         <div className="image">
-          <img src={image} />
+          <img src={about.aboutImage} alt={about.name} />
         </div>
         <div className="about-me">
           <h2 className="about">About Me</h2>
